@@ -1,0 +1,19 @@
+id: recon-passive-1
+title: "Passive Reconnaissance"
+description: "Leverage passive DNS to identify a seeded subdomain."
+difficulty: beginner
+seeded: true
+topology:
+  recon_host: "recon-passive:latest"
+artifacts:
+  recon_target: "{{SEED}}.corp.omnihack.local"
+parameters:
+  - name: SEED
+    type: random_hex
+    length: 5
+validators:
+  - type: flag_contains
+    value: "{{SEED}}.corp.omnihack.local"
+hints:
+  - "Use dig +trace to enumerate authoritative records."
+cleanup: true

@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-controller
+  namespace: omnihack
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lab-controller
+  template:
+    metadata:
+      labels:
+        app: lab-controller
+    spec:
+      containers:
+        - name: controller
+          image: ghcr.io/omnihack/lab-controller:latest
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: omnihack-db
+                  key: url
+            - name: FIRECRACKER_POOL
+              value: "fc-pool"
+          volumeMounts:
+            - name: templates
+              mountPath: /opt/labs
+      volumes:
+        - name: templates
+          configMap:
+            name: lab-templates
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: lab-egress-policy
+  namespace: omnihack
+spec:
+  podSelector:
+    matchLabels:
+      lab-session: "true"
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: omnihack-labs
+      ports:
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 443
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: lab-session-gc
+  namespace: omnihack
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: gc
+              image: ghcr.io/omnihack/lab-controller:latest
+              command: ["/app/bin/gc", "--max-age", "3600"]

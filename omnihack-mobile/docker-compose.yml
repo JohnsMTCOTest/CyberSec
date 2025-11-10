@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  backend:
+    build:
+      context: ./backend
+    command: ["npm", "run", "start"]
+    environment:
+      - PORT=4000
+      - SQLITE_PATH=/data/omnihack.db
+      - TTYD_IMAGE=tsl0922/ttyd:latest
+    volumes:
+      - backend-data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "4000:4000"
+    depends_on:
+      - ttyd-base
+  ttyd-base:
+    image: tsl0922/ttyd:latest
+    command: ["/bin/sh", "-c", "while true; do sleep 3600; done"]
+    restart: unless-stopped
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: omnihack
+      POSTGRES_PASSWORD: omnihack
+      POSTGRES_DB: omnihack
+    ports:
+      - "55432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  backend-data:
+  pgdata:

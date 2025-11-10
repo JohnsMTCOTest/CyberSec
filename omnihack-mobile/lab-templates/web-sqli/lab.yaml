@@ -1,0 +1,29 @@
+id: web-sqli-1
+title: "SQLi — Mobile First (Parameterized)"
+description: "Extract the secret from the database using SQL injection."
+difficulty: beginner
+seeded: true
+topology:
+  attacker: "alpine:latest"
+  target: "web-sqli:latest"
+artifacts:
+  db_flag_template: "OMNIHACK{{SEED}}"
+  web_index_template: |
+    <html>
+    <body>
+      <form action="/search">
+        <input name="q" />
+      </form>
+      <div id="result">Enter search</div>
+    </body>
+    </html>
+parameters:
+  - name: SEED
+    type: random_hex
+    length: 8
+validators:
+  - type: flag_contains
+    value: "OMNIHACK{{SEED}}"
+hints:
+  - "Try single quote in the search parameter to provoke a SQL error"
+cleanup: true

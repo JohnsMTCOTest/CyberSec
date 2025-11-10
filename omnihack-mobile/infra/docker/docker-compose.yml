@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  backend:
+    build:
+      context: ../../backend
+    environment:
+      PORT: 4000
+      SQLITE_PATH: /data/omnihack.db
+    volumes:
+      - ../../lab-templates:/app/lab-templates:ro
+      - backend-data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "4000:4000"
+  ttyd:
+    image: tsl0922/ttyd:latest
+    command: ["/bin/sh", "-c", "while true; do sleep 3600; done"]
+  web-sqli:
+    build:
+      context: ../../lab-templates/web-sqli
+    environment:
+      LAB_FLAG: OMNIHACKDEMO
+    ports:
+      - "5000:5000"
+volumes:
+  backend-data:
