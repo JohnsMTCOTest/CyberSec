@@ -1,0 +1,19 @@
+id: cloud-iam-1
+title: "Cloud IAM Least Privilege"
+description: "Enumerate misconfigured IAM roles to retrieve the seeded access token."
+difficulty: intermediate
+seeded: true
+topology:
+  cloud_cli: "cloud-iam:latest"
+artifacts:
+  iam_flag: "IAMFLAG-{{SEED}}"
+parameters:
+  - name: SEED
+    type: random_hex
+    length: 8
+validators:
+  - type: flag_contains
+    value: "IAMFLAG-{{SEED}}"
+hints:
+  - "Check inline policies for privilege escalation paths."
+cleanup: true

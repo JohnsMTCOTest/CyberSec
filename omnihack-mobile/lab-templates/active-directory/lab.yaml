@@ -1,0 +1,20 @@
+id: ad-lateral-1
+title: "Active Directory Lateral Movement"
+description: "Perform constrained delegation abuse to access a protected share."
+difficulty: advanced
+seeded: true
+topology:
+  dc: "active-directory:latest"
+  workstation: "kalilinux/kali-rolling"
+artifacts:
+  krb_ticket: "KRBTGT-{{SEED}}"
+parameters:
+  - name: SEED
+    type: random_hex
+    length: 8
+validators:
+  - type: flag_contains
+    value: "KRBTGT-{{SEED}}"
+hints:
+  - "Use Rubeus to request a constrained delegation ticket."
+cleanup: true

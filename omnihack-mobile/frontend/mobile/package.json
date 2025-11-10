@@ -1,0 +1,24 @@
+{
+  "name": "omnihack-mobile-client",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios"
+  },
+  "dependencies": {
+    "expo": "~49.0.0",
+    "expo-status-bar": "~1.6.0",
+    "react": "18.2.0",
+    "react-native": "0.72.0",
+    "react-native-paper": "^5.7.0",
+    "axios": "^1.5.0",
+    "react-native-webview": "^13.2.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-native": "^0.72.2",
+    "typescript": "^5.1.6"
+  }
+}

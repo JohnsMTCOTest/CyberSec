@@ -1,0 +1,24 @@
+id: blue-team-1
+title: "Blue Team Incident Response"
+description: "Investigate logs to identify the seeded malicious IP address."
+difficulty: intermediate
+seeded: true
+topology:
+  siem: "blue-team-incident:latest"
+artifacts:
+  malicious_ip: "10.0.{{OCTET_A}}.{{OCTET_B}}"
+parameters:
+  - name: OCTET_A
+    type: random_int
+    min: 10
+    max: 200
+  - name: OCTET_B
+    type: random_int
+    min: 10
+    max: 200
+validators:
+  - type: flag_contains
+    value: "10.0.{{OCTET_A}}.{{OCTET_B}}"
+hints:
+  - "Filter auth.log for suspicious logins."
+cleanup: true

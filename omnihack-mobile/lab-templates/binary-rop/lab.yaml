@@ -1,0 +1,19 @@
+id: binary-rop-1
+title: "Binary ROP Fundamentals"
+description: "Craft a ROP chain to call win() and read the seeded flag."
+difficulty: advanced
+seeded: true
+topology:
+  target: "binary-rop:latest"
+artifacts:
+  rop_seed: "{{SEED}}"
+parameters:
+  - name: SEED
+    type: random_hex
+    length: 6
+validators:
+  - type: flag_contains
+    value: "ROP-{{SEED}}"
+hints:
+  - "Overflow the buffer and return into win()."
+cleanup: true

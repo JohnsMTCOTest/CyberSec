@@ -1,0 +1,25 @@
+id: redteam-domain-1
+title: "Red Team — Ephemeral Domain Escalation"
+description: "Pivot through an ephemeral domain network and escalate privileges."
+difficulty: intermediate
+seeded: true
+topology:
+  attacker: "kalilinux/kali-rolling"
+  domain_controller: "redteam-domain:latest"
+  file_server: "smb-server:latest"
+artifacts:
+  domain_password: "Password{{ADMIN_PASS}}!"
+  smb_flag: "RT-EXFIL-{{EXFIL_HEX}}"
+parameters:
+  - name: ADMIN_PASS
+    type: random_hex
+    length: 6
+  - name: EXFIL_HEX
+    type: random_hex
+    length: 10
+validators:
+  - type: flag_contains
+    value: "RT-EXFIL-{{EXFIL_HEX}}"
+hints:
+  - "Use the seeded password to access the SMB share and enumerate tokens."
+cleanup: true
