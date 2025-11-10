@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install backend deps
+        working-directory: backend
+        run: npm install
+      - name: Run backend tests
+        working-directory: backend
+        run: npm test -- --runInBand
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install python deps
+        run: pip install -r requirements.txt || true
+      - name: Run generator tests
+        run: pytest tests/python_generators_test.py

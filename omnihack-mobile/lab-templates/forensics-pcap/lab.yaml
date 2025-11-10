@@ -1,0 +1,19 @@
+id: forensics-pcap-1
+title: "Forensics — Suspicious PCAP"
+description: "Analyze the PCAP to recover the exfiltrated token."
+difficulty: beginner
+seeded: true
+topology:
+  capture_host: "forensics-pcap:latest"
+artifacts:
+  pcap_hint: "Look for HTTP POST with token={{SEED}}"
+parameters:
+  - name: SEED
+    type: random_hex
+    length: 6
+validators:
+  - type: flag_contains
+    value: "token={{SEED}}"
+hints:
+  - "Use tshark to filter HTTP requests."
+cleanup: true
