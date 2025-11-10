@@ -22,6 +22,10 @@ OmniHack Mobile is a mobile-first interactive cybersecurity learning platform pr
 ```bash
 cd omnihack-mobile
 cp .env.example .env # optional for future secrets
+docker compose up --build  # use `docker-compose` if your CLI still provides the hyphenated form
+```
+
+This launches the backend API, sqlite database, and a ttyd instance used for terminal proxying. The backend image now bundles `ttyd` and the native build toolchain so the stack works out-of-the-box inside GitHub Codespaces when you run `docker compose up --build`.
 docker-compose up --build
 ```
 
