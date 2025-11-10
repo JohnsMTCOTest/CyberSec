@@ -1,0 +1,16 @@
+id: hw-jtag-sim-1
+title: "Hardware JTAG Simulation — Read Protected Region"
+description: "Use the simulated JTAG/GDB interface to read a protected region and recover the flag."
+seeded: true
+topology:
+  sim_host: "hw-jtag-sim:latest"
+artifacts:
+  firmware_template: "firmware_{{SEED}}.bin"
+parameters:
+  - name: SEED
+    type: random_hex
+    length: 12
+validators:
+  - type: file_exists
+    path: "/mnt/exfil/flag-{{SEED}}.txt"
+cleanup: true

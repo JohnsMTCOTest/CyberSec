@@ -1,0 +1,19 @@
+id: iot-firmware-1
+title: "IoT Firmware Reversing"
+description: "Extract and patch the seeded firmware flag."
+difficulty: intermediate
+seeded: true
+topology:
+  firmware_host: "iot-firmware:latest"
+artifacts:
+  firmware_flag: "IOTFLAG-{{SEED}}"
+parameters:
+  - name: SEED
+    type: random_hex
+    length: 6
+validators:
+  - type: flag_contains
+    value: "IOTFLAG-{{SEED}}"
+hints:
+  - "Mount the firmware image and inspect strings."
+cleanup: true

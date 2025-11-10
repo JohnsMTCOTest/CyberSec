@@ -1,0 +1,7 @@
+node_modules
+.lab-sessions
+backend/test.db
+backend/.jest-sessions
+__pycache__
+*.pyc
+.expo
