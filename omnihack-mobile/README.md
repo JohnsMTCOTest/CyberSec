@@ -26,6 +26,10 @@ docker compose up --build  # use `docker-compose` if your CLI still provides the
 ```
 
 This launches the backend API, sqlite database, and a ttyd instance used for terminal proxying. The backend image now bundles `ttyd` and the native build toolchain so the stack works out-of-the-box inside GitHub Codespaces when you run `docker compose up --build`.
+docker-compose up --build
+```
+
+This launches the backend API, sqlite database, and a ttyd instance used for terminal proxying. Sample labs can be instantiated through the backend API.
 
 ### Running the Web SQLi Lab locally
 
